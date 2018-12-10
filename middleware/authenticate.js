@@ -13,7 +13,14 @@ const authenticate = function (req, res, next) {
             req.token = token;
             next();
         }).catch((error) => {
-            res.status(401).send({message: 'Unauthorized user'});
+
+            let responseObj = {
+                id: 'api.users.login',
+                errMessage: 'Unauthorized user',
+                responseCode: 401,
+                error: error
+            };
+            res.status(401).send(response.generateErrorResponse(responseObj));
         });
 }
 

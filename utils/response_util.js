@@ -5,12 +5,11 @@ const generateSuccessResponse = function (data) {
         ver: data.version || 1.0,
         ts: new Date(),
         params: {
-            status: data.status,
-            errConstant: data.errConstant,
-            errMessage: data.errMessage
+            status: data.status || 'success',
+            errMessage: data.errMessage || ''
         },
         responseCode: data.responseCode || 'OK',
-        result: data.result
+        result: data.result || {}
     }
 
     return response;
@@ -22,12 +21,11 @@ const generateErrorResponse = function (data) {
         ver: data.version || 1.0,
         ts: new Date(),
         params: {
-            status: data.status,
-            errConstant: data.errConstant,
+            status: data.status || 'failed',
             errMessage: data.errMessage
         },
         responseCode: data.responseCode,
-        result: {}
+        error: data.error || {}
     }
 
     return response;

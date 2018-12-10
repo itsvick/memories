@@ -16,5 +16,8 @@
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.3.14",
     "validator": "^10.9.0"
+  },
+  "devDependencies": {
+    "@types/joi": "^14.0.0"
   }
 }

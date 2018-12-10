@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const joi = require('joi');
+const Joi = require('joi');
 
 const schema = mongoose.Schema;
 
@@ -10,13 +10,13 @@ const userSchema = new schema({
     firstName: {
         type: String,
         required: [true, 'Required firstName'],
-        minlength: [5, 'First name should be at least 5 character long'],
+        minlength: [3, 'First name should be at least 5 character long'],
         trim: true
     },
     lastName: {
         type: String,
         required: [true, 'Required lastName'],
-        minlength: [5, 'First name should be at least 5 character long'],
+        minlength: [3, 'First name should be at least 5 character long'],
         trim: true
     },
     avatar: {
@@ -53,6 +53,7 @@ const userSchema = new schema({
     username: {
         type: String,
         unique: true,
+        minlength: 3,
         trim: true,
         required: true
     },
@@ -74,10 +75,20 @@ const userSchema = new schema({
 }, { timestamps: true });
 
 
-userSchema.methods.joiValidate()  = function {
+userSchema.methods.joiValidate  = function(obj) {
   let schema = {
-      firstName: joi.types.String().required
+      firstName: Joi.string().min(3).required(),
+      lastName: Joi.string().min(3).required(),
+      avatar: Joi.string(),
+      birthDate: Joi.date().required(),
+      address: Joi.string().required(),
+      mobile: Joi.number().min(10).required(),
+      email: Joi.string().email().required(),
+      username: Joi.string().min(3).required(),
+      password: Joi.string().required()
   }
+
+  return Joi.validate(obj, schema);
 }
 
 userSchema.methods.generateAuthToken = function () {
